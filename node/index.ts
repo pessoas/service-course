@@ -11,6 +11,8 @@ import { analytics } from './handlers/analytics'
 
 import { updateLiveUsers } from './event/liveUsersUpdate'
 
+import { productList } from './resolvers/products'
+
 // Create a LRU memory cache for the Status client.
 // The @vtex/api HttpClient respects Cache-Control headers and uses the provided cache.
 const memoryCache = new LRUCache<string, any>({ max: 5000 })
@@ -52,5 +54,12 @@ export default new Service<Clients, State, ParamsContext>({
     analytics: method({
       GET: [analytics],
     }),
+  },
+  graphql: {
+    resolvers: {
+      Query: {
+        productList,
+      },
+    },
   },
 })
